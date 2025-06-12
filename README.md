@@ -5,7 +5,7 @@ A professionally designed website to showcase and sell premium World Cup 2026 ci
 ## Project Structure
 
 ```
-worldcup2026-domains/ 
+worldcup2026-domains/
 ├── css/
 │   └── styles.css
 ├── js/
