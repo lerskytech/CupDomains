@@ -296,10 +296,15 @@ nav ul li a:hover {
   box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
+/* Updated domain-icon styling for better image display in cards */
 .domain-icon {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   height: 160px;
-  object-fit: cover;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  padding: 10px 0;
 }
 
 /* Domain content styling - centered text and improved spacing */
