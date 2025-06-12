@@ -185,55 +185,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to initialize domain images based on available files
     async function initializeDomainImages() {
-        const domainCards = document.querySelectorAll('.domain-card');
+        // We don't need to dynamically load images since we're using static HTML references
+        // The four domain cards that have specific images are already directly referencing their PNG files
+        // For domains without specific images, we're showing the placeholder div
+        // This function is kept as a placeholder for future image handling if needed
         
-        for (const card of domainCards) {
-            const domainName = card.getAttribute('data-domain');
-            if (!domainName) continue;
-            
-            // Extract the domain name without the extension
-            let cityName = domainName.replace('cup2026.com', '');
-            
-            // Format the city name for the image filename
-            // Convert "miamicup" to "MiamiCup"
-            cityName = cityName.replace(/^(.)(.*)$/, (match, first, rest) => {
-                return first.toUpperCase() + rest;
-            });
-            
-            // Special case for New York City and Los Angeles
-            if (cityName.toLowerCase() === 'nyc') {
-                cityName = 'NYCup';
-            } else if (cityName.toLowerCase() === 'la') {
-                cityName = 'LACup';
-            } else {
-                cityName = cityName + 'Cup';
-            }
-            
-            // Check if the image exists
-            const imageUrl = `./assets/${cityName}.png`;
-            const exists = await imageExists(imageUrl);
-            
-            // If the image exists, replace placeholder with actual image
-            const placeholder = card.querySelector('.city-icon-placeholder');
-            if (exists && placeholder) {
-                placeholder.remove();
-                
-                // Extract city name from the domain for alt text
-                let cityAlt = domainName.replace('cup2026.com', '').replace('futbol', '');
-                // Format city name for alt text (capitalize first letter)
-                cityAlt = cityAlt.replace(/^(.)(.*)$/, (match, first, rest) => {
-                    return first.toUpperCase() + rest;
-                });
-                
-                // Create and insert the image
-                const img = document.createElement('img');
-                img.src = imageUrl;
-                img.alt = `${cityAlt} World Cup 2026 Icon`;
-                img.className = 'city-icon';
-                
-                // Insert the image before the domain content
-                card.insertBefore(img, card.querySelector('.domain-content'));
-            }
-        }
+        // Important note: Do not attempt to delete or replace any existing PNG images
+        // All image references are hardcoded in the HTML with proper paths
+        console.log('Domain images are statically referenced in HTML as per requirements');
     }
 });
