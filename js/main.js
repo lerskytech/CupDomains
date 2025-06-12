@@ -16,32 +16,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const domainCards = document.querySelectorAll('.domain-card');
     
-    // Domain Search Functionality - Enhanced to work with all card elements and content
     if (searchInput) {
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
             
-            // Reset domain visibility when search input is empty
-            if (searchTerm === '') {
-                domainCards.forEach(card => {
-                    card.style.display = 'block';
-                });
-                return;
-            }
-            
             domainCards.forEach(card => {
-                // Search in data-domain attribute (domain name)
                 const domainName = card.getAttribute('data-domain').toLowerCase();
-                // Search in data-region attribute (region/country)
                 const domainRegion = card.getAttribute('data-region').toLowerCase();
-                // Search in domain content (city name or other text)
-                const domainContent = card.querySelector('.domain-content');
-                const cityName = domainContent ? domainContent.textContent.toLowerCase() : '';
                 
-                // Check if search term exists in any of the relevant content
-                if (domainName.includes(searchTerm) || 
-                    domainRegion.includes(searchTerm) || 
-                    cityName.includes(searchTerm)) {
+                if (domainName.includes(searchTerm) || domainRegion.includes(searchTerm)) {
                     card.style.display = 'block';
                 } else {
                     card.style.display = 'none';
@@ -50,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Domain Filter Button Functionality - Ensures compatibility with search and card structure
     if (filterButtons.length > 0) {
         filterButtons.forEach(button => {
             button.addEventListener('click', function() {
@@ -60,22 +42,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 filterButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
                 
-                // Clear search input when filter button is clicked
-                if (searchInput) {
-                    searchInput.value = '';
-                }
-                
                 // Filter domains
                 if (filterValue === 'all') {
-                    // Show all cards
                     domainCards.forEach(card => {
                         card.style.display = 'block';
                     });
                 } else {
-                    // Filter by region attribute
                     domainCards.forEach(card => {
-                        const cardRegion = card.getAttribute('data-region');
-                        if (cardRegion && cardRegion.toLowerCase() === filterValue.toLowerCase()) {
+                        if (card.getAttribute('data-region') === filterValue) {
                             card.style.display = 'block';
                         } else {
                             card.style.display = 'none';
