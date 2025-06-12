@@ -575,10 +575,12 @@ footer {
 }
 
 /* Header logo styling */
-.logo-image {
-  height: 40px;
+/* Logo styling - ensures consistent display across all devices */
+.site-logo {
+  max-height: 48px;
+  height: 48px;
   width: auto;
-  margin-right: 10px;
+  padding-right: 16px;
   vertical-align: middle;
 }
 
@@ -669,8 +671,9 @@ footer {
   }
 
   /* Ensure logo visibility on mobile */
-  .logo-image {
-    height: 30px;
+  .site-logo {
+    max-height: 42px;
+    height: 42px;
   }
 
   /* Improve overlay readability on mobile */
