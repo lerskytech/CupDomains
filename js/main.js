@@ -19,87 +19,63 @@ document.addEventListener('DOMContentLoaded', function() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const domainCards = document.querySelectorAll('.domain-card');
     
-    // Track current filter and search state
-    let currentFilter = 'all';
-    let currentSearchTerm = '';
-    
-    // Function to update domain visibility based on current filter and search
-    function updateDomainVisibility() {
-        if (!domainCards) return;
-        
-        domainCards.forEach(card => {
-            const domainName = card.getAttribute('data-domain').toLowerCase();
-            const domainRegion = card.getAttribute('data-region').toLowerCase();
-            
-            // Check if card matches search term
-            const matchesSearch = currentSearchTerm === '' || 
-                domainName.includes(currentSearchTerm) || 
-                domainRegion.includes(currentSearchTerm);
-                
-            // Check if card matches current filter
-            const matchesFilter = currentFilter === 'all' || domainRegion === currentFilter;
-            
-            // Show card only if it matches both search and filter
-            if (matchesSearch && matchesFilter) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-    
-    // Set up search input handler
     if (searchInput) {
-        // Clear any existing event listeners
-        const newSearchInput = searchInput.cloneNode(true);
-        searchInput.parentNode.replaceChild(newSearchInput, searchInput);
-        
-        // Add new event listener
-        newSearchInput.addEventListener('input', function() {
-            currentSearchTerm = this.value.toLowerCase();
-            updateDomainVisibility();
-        });
-    }
-    
-    // Set up filter buttons
-    if (filterButtons.length > 0) {
-        filterButtons.forEach(button => {
-            // Clear any existing event listeners
-            const newButton = button.cloneNode(true);
-            button.parentNode.replaceChild(newButton, button);
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
             
-            // Add new event listener
-            newButton.addEventListener('click', function() {
-                const filterValue = this.getAttribute('data-filter');
-                currentFilter = filterValue;
+            domainCards.forEach(card => {
+                const domainName = card.getAttribute('data-domain').toLowerCase();
+                const domainRegion = card.getAttribute('data-region').toLowerCase();
                 
-                // Update active button
-                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Update domain visibility with current search term and new filter
-                updateDomainVisibility();
+                if (domainName.includes(searchTerm) || domainRegion.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
             });
         });
     }
     
-    // Also set up filter links in the footer
+    if (filterButtons.length > 0) {
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filterValue = this.getAttribute('data-filter');
+                
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter domains
+                if (filterValue === 'all') {
+                    domainCards.forEach(card => {
+                        card.style.display = 'block';
+                    });
+                } else {
+                    domainCards.forEach(card => {
+                        if (card.getAttribute('data-region') === filterValue) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        });
+    }
+    
+    // Set up footer filter links to work the same way
     const filterLinks = document.querySelectorAll('.filter-link');
     if (filterLinks.length > 0) {
         filterLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const filterValue = this.getAttribute('data-filter');
-                currentFilter = filterValue;
                 
-                // Update active button in the main filter area
-                document.querySelectorAll('.filter-btn').forEach(btn => {
-                    if (btn.getAttribute('data-filter') === filterValue) {
-                        btn.classList.add('active');
-                    } else {
-                        btn.classList.remove('active');
-                    }
-                });
+                // Find and click the corresponding filter button
+                const correspondingButton = document.querySelector(`.filter-btn[data-filter="${filterValue}"]`);
+                if (correspondingButton) {
+                    correspondingButton.click();
+                }
                 
                 // Scroll to domain section
                 const domainSection = document.querySelector('.domain-grid');
@@ -109,9 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         behavior: 'smooth'
                     });
                 }
-                
-                // Update domain visibility
-                updateDomainVisibility();
             });
         });
     }
