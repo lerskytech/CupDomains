@@ -1,414 +1,239 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World Cup 2026 Domain Portfolio | Premium Host City Domains</title>
-    <meta name="description" content="Explore our exclusive collection of premium World Cup 2026 city-specific domains - strategic digital real estate for North America's largest sporting event.">
-    <meta name="keywords" content="World Cup 2026 domains, host city domains, premium domains, FIFA World Cup 2026, digital real estate">
-    <!-- Open Graph Tags -->
-    <meta property="og:title" content="World Cup 2026 Premium Domain Portfolio">
-    <meta property="og:description" content="Explore our collection of premium World Cup 2026 city domains - exclusive digital real estate for the biggest sporting event.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://cupdomains.com/domains.html">
-    <!-- Font Imports -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <a href="index.html" class="logo">Cup <span>Domains</span></a>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="domains.html">Domain Portfolio</a></li>
-                    <li><a href="market.html">Market Potential</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-                <button class="nav-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </nav>
-        </div>
-    </header>
+/* World Cup 2026 Domain Portfolio - Main JavaScript */
 
-    <!-- Domain Portfolio Hero -->
-    <section class="hero" style="padding-top: 120px; padding-bottom: 80px;">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Premium World Cup 2026 Domain Portfolio</h1>
-                <p class="hero-subtitle">A complete collection of strategic digital real estate covering every major host city</p>
-            </div>
-        </div>
-    </section>
+document.addEventListener('DOMContentLoaded', function() {
+    // Navigation toggle for mobile
+    const navToggle = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('nav ul');
+    
+    if (navToggle) {
+        navToggle.addEventListener('click', function() {
+            nav.classList.toggle('show');
+        });
+    }
+    
+    // Automatically load city-specific images or use placeholders
+    initializeDomainImages();
+    
+    // Domain Search & Filter Functionality
+    const searchInput = document.getElementById('domain-search');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const domainCards = document.querySelectorAll('.domain-card');
+    
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            domainCards.forEach(card => {
+                const domainName = card.getAttribute('data-domain').toLowerCase();
+                const domainRegion = card.getAttribute('data-region').toLowerCase();
+                
+                if (domainName.includes(searchTerm) || domainRegion.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    if (filterButtons.length > 0) {
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filterValue = this.getAttribute('data-filter');
+                
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter domains
+                if (filterValue === 'all') {
+                    domainCards.forEach(card => {
+                        card.style.display = 'block';
+                    });
+                } else {
+                    domainCards.forEach(card => {
+                        if (card.getAttribute('data-region') === filterValue) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        });
+    }
+    
+    // Form Validation
+    const contactForm = document.getElementById('contact-form');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Basic validation
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const companyInput = document.getElementById('company');
+            const messageInput = document.getElementById('message');
+            
+            let isValid = true;
+            
+            if (nameInput.value.trim() === '') {
+                highlightError(nameInput);
+                isValid = false;
+            } else {
+                removeError(nameInput);
+            }
+            
+            if (emailInput.value.trim() === '' || !isValidEmail(emailInput.value)) {
+                highlightError(emailInput);
+                isValid = false;
+            } else {
+                removeError(emailInput);
+            }
+            
+            if (companyInput.value.trim() === '') {
+                highlightError(companyInput);
+                isValid = false;
+            } else {
+                removeError(companyInput);
+            }
+            
+            if (messageInput.value.trim() === '') {
+                highlightError(messageInput);
+                isValid = false;
+            } else {
+                removeError(messageInput);
+            }
+            
+            if (isValid) {
+                // In a real implementation, this would send the form data to a server
+                // For now, we'll just show a success message
+                const formContent = contactForm.innerHTML;
+                contactForm.innerHTML = '<div class="success-message"><h3>Thank You!</h3><p>Your message has been sent successfully. Our team will contact you shortly.</p></div>';
+                
+                // Reset the form after 5 seconds (for demo purposes)
+                setTimeout(() => {
+                    contactForm.innerHTML = formContent;
+                }, 5000);
+            }
+        });
+    }
+    
+    function highlightError(input) {
+        input.classList.add('error');
+        input.parentElement.classList.add('has-error');
+    }
+    
+    function removeError(input) {
+        input.classList.remove('error');
+        input.parentElement.classList.remove('has-error');
+    }
+    
+    function isValidEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+    
+    // Smooth scrolling for anchor links
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const target = document.querySelector(this.getAttribute('href'));
+            
+            if (target) {
+                window.scrollTo({
+                    top: target.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // Add animation on scroll
+    const animateElements = document.querySelectorAll('.animate');
+    
+    function checkInView() {
+        animateElements.forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (elementTop < windowHeight - 50) {
+                element.classList.add('animated');
+            }
+        });
+    }
+    
+    // Run on load
+    checkInView();
+    
+    // Run on scroll
+    window.addEventListener('scroll', checkInView);
 
-    <!-- Domain Showcase -->
-    <section class="section">
-        <div class="container">
-            <h2 class="text-center">Complete Domain Collection</h2>
-            <p class="text-center">Our exclusive portfolio covers every major host city for the 2026 FIFA World Cup</p>
+    // Function to check if an image exists at a given URL
+    async function imageExists(url) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+            img.src = url;
+        });
+    }
 
-            <!-- Search and Filter -->
-            <div class="search-filter">
-                <input type="text" id="domain-search" class="search-input" placeholder="Search domains...">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="usa">USA</button>
-                <button class="filter-btn" data-filter="canada">Canada</button>
-                <button class="filter-btn" data-filter="mexico">Mexico</button>
-            </div>
-
-            <div class="domain-grid">
-                <!-- USA Domain Cards -->
-                <div class="domain-card" data-domain="miamicup2026.com" data-region="usa">
-                    <!-- Custom city icon for Miami -->
-                    <img src="assets/MiamiCup.png" alt="Miami World Cup 2026 Icon" class="city-icon">
-                    <div class="domain-content">
-                        <h3 class="domain-name">miamicup2026.com</h3>
-                        <p>Miami, FL Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">miamicup2026.com</h4>
-                        <p class="domain-overlay-text">Ticket sales, hotel bookings, local event guides, transportation info, fan zones, and premium advertising opportunities.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="houstoncup2026.com" data-region="usa">
-                    <!-- No custom icon available for Houston -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">houstoncup2026.com</h3>
-                        <p>Houston, TX Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">houstoncup2026.com</h4>
-                        <p class="domain-overlay-text">Match schedules, local tourism partnerships, merchandise sales, restaurant guides, and accommodation bookings.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="lacup2026.com" data-region="usa">
-                    <!-- Custom city icon for Los Angeles -->
-                    <img src="assets/LACup.png" alt="Los Angeles World Cup 2026 Icon" class="city-icon">
-                    <div class="domain-content">
-                        <h3 class="domain-name">lacup2026.com</h3>
-                        <p>Los Angeles, CA Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">lacup2026.com</h4>
-                        <p class="domain-overlay-text">VIP experiences, celebrity events, entertainment guides, luxury accommodations, and high-end advertising opportunities.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="nycup2026.com" data-region="usa">
-                    <!-- Custom city icon for New York -->
-                    <img src="assets/NYCup.png" alt="New York City World Cup 2026 Icon" class="city-icon">
-                    <div class="domain-content">
-                        <h3 class="domain-name">nycup2026.com</h3>
-                        <p>New York City, NY Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">nycup2026.com</h4>
-                        <p class="domain-overlay-text">Premium event coverage, exclusive ticketing, advertising networks, travel packages, and comprehensive city guides.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="dallascup2026.com" data-region="usa">
-                    <!-- No custom icon available for Dallas -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">dallascup2026.com</h3>
-                        <p>Dallas, TX Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">dallascup2026.com</h4>
-                        <p class="domain-overlay-text">Corporate sponsorships, group sales, hospitality packages, transportation services, and local business promotion.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="seattlecup2026.com" data-region="usa">
-                    <!-- No custom icon available for Seattle -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">seattlecup2026.com</h3>
-                        <p>Seattle, WA Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">seattlecup2026.com</h4>
-                        <p class="domain-overlay-text">Tourism packages, match day experiences, restaurant bookings, local attractions, and regional advertising.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="bostoncup2026.com" data-region="usa">
-                    <!-- No custom icon available for Boston -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">bostoncup2026.com</h3>
-                        <p>Boston, MA Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">bostoncup2026.com</h4>
-                        <p class="domain-overlay-text">Historic tours, fan experiences, ticket marketplace, lodging options, and exclusive local partnerships.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="phillycup2026.com" data-region="usa">
-                    <!-- No custom icon available for Philadelphia -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">phillycup2026.com</h3>
-                        <p>Philadelphia, PA Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">phillycup2026.com</h4>
-                        <p class="domain-overlay-text">Fan zones, cultural events, transportation guides, food recommendations, and local business advertising.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="kansascitycup2026.com" data-region="usa">
-                    <!-- No custom icon available for Kansas City -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">kansascitycup2026.com</h3>
-                        <p>Kansas City Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">kansascitycup2026.com</h4>
-                        <p class="domain-overlay-text">Travel packages, event schedules, local hospitality, restaurant guides, and regional advertising opportunities.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="bayareacup2026.com" data-region="usa">
-                    <!-- No custom icon available for Bay Area -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">bayareacup2026.com</h3>
-                        <p>San Francisco Bay Area</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">bayareacup2026.com</h4>
-                        <p class="domain-overlay-text">Tech partnerships, luxury experiences, premium content, digital advertising, and regional tourism promotions.</p>
-                    </div>
-                </div>
-
-                <!-- Canada Domain Cards -->
-                <div class="domain-card" data-domain="torontocup2026.com" data-region="canada">
-                    <!-- No custom icon available for Toronto -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">torontocup2026.com</h3>
-                        <p>Toronto, ON Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">torontocup2026.com</h4>
-                        <p class="domain-overlay-text">Match tickets, local events, tourism information, hospitality packages, and advertising platforms.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="vancouvercup2026.com" data-region="canada">
-                    <!-- No custom icon available for Vancouver -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">vancouvercup2026.com</h3>
-                        <p>Vancouver, BC Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">vancouvercup2026.com</h4>
-                        <p class="domain-overlay-text">Tourism guides, event calendars, fan experiences, accommodation bookings, and promotional opportunities.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="canadacup2026.com" data-region="canada">
-                    <!-- No custom icon available for Canada -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">canadacup2026.com</h3>
-                        <p>Canada National Coverage</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">canadacup2026.com</h4>
-                        <p class="domain-overlay-text">Nationwide coverage, cross-city travel, comprehensive event guides, national sponsorships, and advertising networks.</p>
-                    </div>
-                </div>
-
-                <!-- Mexico Domain Cards -->
-                <div class="domain-card" data-domain="mexicocitycup2026.com" data-region="mexico">
-                    <!-- Custom city icon for Mexico City -->
-                    <img src="assets/MexicoCityCup.png" alt="Mexico City World Cup 2026 Icon" class="city-icon">
-                    <div class="domain-content">
-                        <h3 class="domain-name">mexicocitycup2026.com</h3>
-                        <p>Mexico City Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">mexicocitycup2026.com</h4>
-                        <p class="domain-overlay-text">Event calendars, ticket sales, tourist guides, local transportation, and advertising opportunities.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="monterreycup2026.com" data-region="mexico">
-                    <!-- No custom icon available for Monterrey -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">monterreycup2026.com</h3>
-                        <p>Monterrey Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">monterreycup2026.com</h4>
-                        <p class="domain-overlay-text">Match schedules, fan zones, hospitality packages, local business promotion, and accommodation bookings.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="guadalajaracup2026.com" data-region="mexico">
-                    <!-- No custom icon available for Guadalajara -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">guadalajaracup2026.com</h3>
-                        <p>Guadalajara Host City</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">guadalajaracup2026.com</h4>
-                        <p class="domain-overlay-text">Cultural events, match information, tourism opportunities, fan experiences, and regional advertising.</p>
-                    </div>
-                </div>
-
-                <!-- Specialty Domain Cards -->
-                <div class="domain-card" data-domain="futbolmiami2026.com" data-region="usa">
-                    <!-- No custom icon available for Futbol Miami -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">futbolmiami2026.com</h3>
-                        <p>Miami Specialty Domain</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">futbolmiami2026.com</h4>
-                        <p class="domain-overlay-text">Hispanic market targeting, bilingual content, cultural events, and specialized advertising opportunities.</p>
-                    </div>
-                </div>
-
-                <div class="domain-card" data-domain="futbolcup2026.com" data-region="all">
-                    <!-- No custom icon available for Futbol Cup -->
-                    <div class="city-icon-placeholder">No Image Yet</div>
-                    <div class="domain-content">
-                        <h3 class="domain-name">futbolcup2026.com</h3>
-                        <p>Global Hispanic Market</p>
-                        <div class="domain-price-tag">Premium</div>
-                        <a href="contact.html" class="btn btn-primary domain-btn">Inquire</a>
-                    </div>
-                    <div class="domain-overlay">
-                        <h4 class="domain-overlay-title">futbolcup2026.com</h4>
-                        <p class="domain-overlay-text">Spanish-language content, Hispanic market coverage, cultural events, and targeted advertising across all regions.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Value -->
-    <section class="section" style="background-color: var(--light-gray);">
-        <div class="container">
-            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-                <h2>Why Purchase the Complete Portfolio?</h2>
-                <p>Owning this comprehensive domain collection provides complete market dominance across all World Cup 2026 host cities. This unified digital strategy offers unprecedented opportunities for cross-promotion, consistent branding, and maximum monetization potential.</p>
-                <div class="stats" style="margin-top: 3rem;">
-                    <div class="stat animate">
-                        <div class="stat-number">18</div>
-                        <div class="stat-label">Premium Domains</div>
-                    </div>
-                    <div class="stat animate">
-                        <div class="stat-number">3</div>
-                        <div class="stat-label">Host Countries</div>
-                    </div>
-                    <div class="stat animate">
-                        <div class="stat-number">100%</div>
-                        <div class="stat-label">Market Coverage</div>
-                    </div>
-                </div>
-                <div style="margin-top: 3rem;">
-                    <a href="contact.html" class="btn btn-primary">Inquire About Acquisition</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <div class="footer-logo">Cup <span>Domains</span></div>
-                    <p>Premium digital real estate for the 2026 World Cup.</p>
-                </div>
-                <div class="footer-links">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="domains.html">Domain Portfolio</a></li>
-                        <li><a href="market.html">Market Potential</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h3>Host Regions</h3>
-                    <ul>
-                        <li><a href="#" class="filter-link" data-filter="usa">USA Host Cities</a></li>
-                        <li><a href="#" class="filter-link" data-filter="canada">Canada Host Cities</a></li>
-                        <li><a href="#" class="filter-link" data-filter="mexico">Mexico Host Cities</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h3>Contact</h3>
-                    <ul>
-                        <li><i class="fas fa-envelope"></i> info@cupdomains.com</li>
-                        <li><i class="fas fa-phone"></i> +1 (800) 555-2026</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Cup Domains. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
-    <script src="js/main.js"></script>
-</body>
-</html>
+    // Function to initialize domain images based on available files
+    async function initializeDomainImages() {
+        const domainCards = document.querySelectorAll('.domain-card');
+        
+        for (const card of domainCards) {
+            const domainName = card.getAttribute('data-domain');
+            if (!domainName) continue;
+            
+            // Extract the domain name without the extension
+            let cityName = domainName.replace('cup2026.com', '');
+            
+            // Format the city name for the image filename
+            // Convert "miamicup" to "MiamiCup"
+            cityName = cityName.replace(/^(.)(.*)$/, (match, first, rest) => {
+                return first.toUpperCase() + rest;
+            });
+            
+            // Special case for New York City and Los Angeles
+            if (cityName.toLowerCase() === 'nyc') {
+                cityName = 'NYCup';
+            } else if (cityName.toLowerCase() === 'la') {
+                cityName = 'LACup';
+            } else {
+                cityName = cityName + 'Cup';
+            }
+            
+            // Use the standard path format
+            const imageUrl = `assets/${cityName}.png`;
+            const exists = await imageExists(imageUrl);
+            
+            // If the image exists, replace placeholder with actual image
+            const placeholder = card.querySelector('.city-icon-placeholder');
+            if (exists && placeholder) {
+                placeholder.remove();
+                
+                // Extract city name from the domain for alt text
+                let cityAlt = domainName.replace('cup2026.com', '').replace('futbol', '');
+                // Format city name for alt text (capitalize first letter)
+                cityAlt = cityAlt.replace(/^(.)(.*)$/, (match, first, rest) => {
+                    return first.toUpperCase() + rest;
+                });
+                
+                // Create and insert the image
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = `${cityAlt} World Cup 2026 Icon`;
+                img.className = 'city-icon';
+                
+                // Insert the image before the domain content
+                card.insertBefore(img, card.querySelector('.domain-content'));
+            }
+        }
+    }
+});
