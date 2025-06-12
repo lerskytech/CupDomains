@@ -165,29 +165,7 @@ nav ul li a:hover {
     margin-bottom: 1rem;
 }
 
-/* City-specific domain images */
-.city-icon {
-    width: 100%;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-}
 
-/* Placeholder for domains without specific images */
-.city-icon-placeholder {
-    width: 100%;
-    height: 100px;
-    background-color: #f0f5f9;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #6c757d;
-    font-size: 0.9rem;
-    border: 1px dashed #ccc;
-}
 
 /* Button Styles */
 .btn {

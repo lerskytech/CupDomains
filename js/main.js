@@ -11,9 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Automatically load city-specific images or use placeholders
-    initializeDomainImages();
-    
     // Domain Search & Filter Functionality
     const searchInput = document.getElementById('domain-search');
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -198,68 +195,4 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Run on scroll
     window.addEventListener('scroll', checkInView);
-
-    // Function to check if an image exists at a given URL
-    async function imageExists(url) {
-        return new Promise((resolve) => {
-            const img = new Image();
-            img.onload = () => resolve(true);
-            img.onerror = () => resolve(false);
-            img.src = url;
-        });
-    }
-
-    // Function to initialize domain images based on available files
-    async function initializeDomainImages() {
-        const domainCards = document.querySelectorAll('.domain-card');
-        
-        for (const card of domainCards) {
-            const domainName = card.getAttribute('data-domain');
-            if (!domainName) continue;
-            
-            // Extract the domain name without the extension
-            let cityName = domainName.replace('cup2026.com', '');
-            
-            // Format the city name for the image filename
-            // Convert "miamicup" to "MiamiCup"
-            cityName = cityName.replace(/^(.)(.*)$/, (match, first, rest) => {
-                return first.toUpperCase() + rest;
-            });
-            
-            // Special case for New York City and Los Angeles
-            if (cityName.toLowerCase() === 'nyc') {
-                cityName = 'NYCup';
-            } else if (cityName.toLowerCase() === 'la') {
-                cityName = 'LACup';
-            } else {
-                cityName = cityName + 'Cup';
-            }
-            
-            // Use the standard path format
-            const imageUrl = `assets/${cityName}.png`;
-            const exists = await imageExists(imageUrl);
-            
-            // If the image exists, replace placeholder with actual image
-            const placeholder = card.querySelector('.city-icon-placeholder');
-            if (exists && placeholder) {
-                placeholder.remove();
-                
-                // Extract city name from the domain for alt text
-                let cityAlt = domainName.replace('cup2026.com', '').replace('futbol', '');
-                // Format city name for alt text (capitalize first letter)
-                cityAlt = cityAlt.replace(/^(.)(.*)$/, (match, first, rest) => {
-                    return first.toUpperCase() + rest;
-                });
-                
-                // Create and insert the image
-                const img = document.createElement('img');
-                img.src = imageUrl;
-                img.alt = `${cityAlt} World Cup 2026 Icon`;
-                img.className = 'city-icon';
-                
-                // Insert the image before the domain content
-                card.insertBefore(img, card.querySelector('.domain-content'));
-            }
-        }
-    }
 });
