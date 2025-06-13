@@ -296,7 +296,7 @@ nav ul li a:hover {
   box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-/* Updated domain-icon styling for better image display in cards */
+/* Updated domain-icon styling for better image display in cards with adjusted spacing */
 .domain-icon {
   width: auto;
   max-width: 100%;
@@ -307,17 +307,38 @@ nav ul li a:hover {
   padding: 10px 0;
 }
 
-/* Domain content styling - centered text and improved spacing */
-.domain-content {
-  padding: 1.5rem;
-  text-align: center; /* Center all text in domain cards */
+/* Added styles for city and host city text to ensure they're on separate lines and centered */
+.domain-city {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.2rem;
 }
 
+.domain-host {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Domain content styling - perfectly centered text and improved layout */
+/* Updated domain-content styling for perfect text centering on all devices */
+.domain-content {
+  padding: 1.5rem 1rem;
+  text-align: center; /* Center all text in domain cards */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Ensure perfect horizontal centering of all elements */
+  width: 100%;
+}
+
+/* Updated domain-name for perfect centering and layout adjustments */
 .domain-name {
   font-size: 1.2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
   color: var(--dark-blue);
+  text-align: center;
+  width: 100%;
 }
 
 /* Domain overlay styling - improved readability and mobile compatibility */
