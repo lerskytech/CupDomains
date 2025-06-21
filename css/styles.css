@@ -381,6 +381,8 @@ nav ul li a:hover {
     display: block;
     width: fit-content;
     margin: 1rem auto 0;
+    position: relative;
+    z-index: 10; /* Make button appear above the overlay */
 }
 
 /* Domain overlay styling - improved readability and mobile compatibility */
@@ -399,6 +401,7 @@ nav ul li a:hover {
   padding: 1.5rem;
   opacity: 0;
   transition: var(--transition);
+  z-index: 5; /* Lower than the button's z-index */
 }
 
 .domain-card:hover .domain-overlay {
